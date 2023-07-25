@@ -10,18 +10,18 @@ app.use(bodyParser.json())
 
 const db = new sqlite3.Database(':memory:');
 db.serialize(function () {
- db.run(â€œCREATE TABLE user (username TEXT, password TEXT, title TEXT)â€œ);
- db.run(â€œINSERT INTO user VALUES ('privilegedUser', 'privilegedUser1', 'Administrator')â€œ);
+	db.run("CREATE TABLE user (username TEXT, password TEXT, title TEXT)");
+	db.run("INSERT INTO user VALUES ('privilegedUser', 'privilegedUser1', 'Administrator')");
 });
 
 app.get('/', function (req, res) {
-    res.sendFile('indes.html');
+    res.sendFile('index.html');
 });
 
 app.post('/login', function (req,res) {
     var username = req.body.username;
     var password = req.body.password;
-    var query = "SELECT title FROM user where username = '" + username + "' and password = '" + password + "";
+    var query = "SELECT title FROM user where username = '" + username + "' and password = '" + password + "'";
 
     console.log("username: " + username);
     console.log("password: " + password);
@@ -35,7 +35,7 @@ app.post('/login', function (req,res) {
         } else if (!row) {
             res.redirect("/index.html#unathorized");
         } else {
-            res.send('Hello <b>' + row.title + '!</b><br /> This file contais your secret data: <br /><br /> SECRETS <br /><br /> MORE SECRETS <br /><br /> <a href="/index.html"> go back to login</a>');
+            res.send('Hello <b>' + row.title + '!</b><br /> This file contains your secret data: <br /><br /> SECRETS <br /><br /> MORE SECRETS <br /><br /> <a href="/index.html"> go back to login</a>');
         }
     });
 });
